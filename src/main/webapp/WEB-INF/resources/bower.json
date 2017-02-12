@@ -1,0 +1,14 @@
+{
+  "name": "clearance",
+  "description": "Test project",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
