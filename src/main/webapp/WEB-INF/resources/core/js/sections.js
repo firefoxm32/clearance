@@ -1,136 +1,106 @@
 section = function () {
-    var sId = 0;
+
+    $section = $('.section-container');
+    $table = $('.js-table');
+    $selectCourse = $('.js-select-course');
+    $selectYear = $('.js-select-year');
+    $inputName = $('.js-input-name');
+    $btnSave = $('.js-button-save');
+    $sId = 0;
+
     var initialize = function () {
-        courseOnChange();
-        btnSaveOnClick();
-        yearOnChange();
-        btnUpdateOnClick();
+        bindEventListener();
+
     };
 
-    var courseOnChange = function () {
-        $('#course').change(function () {
-            var val = $(this).val();
-            console.log(val);
-            $('#sections').empty();
-            $('#section').val("");
-            if (0 == val) {
-                $('#year').empty();
+    var bindEventListener = function () {
+        $section.find($selectCourse).change(function () {
+            $id = $selectCourse.val();
+            $table.find('tbody').empty();
+            if ($id == 0) {
+                $selectYear.empty();
+                $inputName.val("");
+                $selectYear.append('<option value="0">SELECT YEAR</option>');
                 return;
             }
-            getCourseYears(val);
+            populateSelectYear($id);
+        });
+        
+        $section.find($selectYear).change(function () {
+            populateTable();
+        });
+        
+        $section.find($btnSave).click(function () {
+            console.log("section!");
+            save();
+        });
+        
+        $section.find($table).on('click', '.js-btn-update', function () {
+            $inputName.val($(this).data("name"));
+            $sId = $(this).data("id");
         });
     };
 
-    var getCourseYears = function (id) {
+    var populateSelectYear = function (id) {
         $.ajax({
-            url: '/clearance/api/course/' + id,
-            method: 'GET',
+            type: 'GET',
+            url: "/clearance/api/course/" + id,
             success: function (result) {
-                populateYears(result.courseYears);
+                $selectYear.empty();
+                $inputName.val("");
+                renderSelectYear(result);
             }
         });
     };
 
-    var populateYears = function (courseYears) {
-        var arrSuff = new Array("st", "nd", "rd", "th", "th", "th", "th", "th", "th", "th");
-        $('#year').empty();
-        $('#year').append('<option value=0>SELECT YEAR</option>');
-        $.each(courseYears, function (idx, cy) {
-            $('#year').append('<option value=' + cy.id + '>' + cy.yearName + arrSuff[idx] + ' Year</option>');
-        });
-    }; //end of populate years
-
-    var btnSaveOnClick = function () {
-        $('#save').click(function () {
-            var yearId = $('#year').val();
-            var sectionName = $('#section').val();
-            if (yearId <= 0 || sectionName === "") {
-                return alertMessage('Incomplete!!');
-            }
-            save(yearId, sectionName);
-        });
+    var renderSelectYear = function (data) {
+        $inputName.val();
+        var template = $('#section_template').html();
+        var rendered = Mustache.render(template, data);
+        $selectYear.append(rendered);
     };
 
-    var save = function (yearId, sectionName) {
+    var populateTable = function () {
+        var yId = $selectYear.val();
         $.ajax({
-            url: '/clearance/api/save-section',
-            method: 'POST',
+            type: 'GET',
+            url: "/clearance/api/sections/" + yId,
+            success: function (data) {
+                renderTable(data);
+            }
+        });
+    };
+
+    var renderTable = function (data) {
+        $table.find('tbody').empty();
+        $inputName.val("");
+        var template = $('#section_template2').html();
+        var rendered = Mustache.render(template, data);
+        $table.find('tbody').append(rendered);
+    };
+
+    var save = function () {
+        var yId = $selectYear.val();
+        var sName = $inputName.val();
+        $.ajax({
+            type: 'POST',
+            url: "/clearance/api/save-section",
             data: {
-                year_id: yearId,
-                section_name: sectionName,
-                section_id: sId
+                year_id: yId,
+                section_name: sName,
+                section_id: $sId
             },
-            success: function (response) {
-                alertMessage('Successfully ' + response);
-                $('#section').val("");
-                getSectionsByYearId($('#year').val());
-            }
-        });
-    }; // end of save
-
-    var yearOnChange = function () {
-        $('#year').change(function () {
-            var val = $(this).val();
-            $('#sections').empty();
-            $('#section').val("");
-            if (0 == val) {
-                return;
-            }
-            getSectionsByYearId(val);
-        });
-    };
-
-    var getSectionsByYearId = function (courseYearId) {
-        $('#sections').empty();
-        $('#section').val("");
-        $('#sections').append("<tr style=width: auto;border: black solid>\n\
-            <th>SECTION ID</th>\n\
-            <th>SECTION NAME</th>\n\
-            <th>ACTION</th>\n\
-            </tr>");
-        $.ajax({
-            url: '/clearance/api/sections/' + courseYearId,
-            method: 'GET',
             success: function (result) {
-                if (result.length == 0) {
-                    return alertMessage("No sections yet!");
-                }
-                $.each(result, function (idx, section) {
-                    populateTableSection(section.sectionId, section.sectionName);
-                });
+                console.log('RESULT: ' + result);
+            },
+            error: function (errorThrown) {
+                console.log(errorThrown);
             }
-        }).done(function () {
-            console.log("hello");
-            $('#sections').find('td').css({"border-color": "black",
-                "border-width": "1px",
-                "border-style": "solid"});
-            
         });
-    };
-
-    var populateTableSection = function (id, sectionName) {
-        $('#sections').append('<tr>\n\
-            <td class="js-td">' + id + '</td>\n\
-            <td class="js-td">' + sectionName + '</td>\n\
-            <td class="js-td"><button data-section-name="'+sectionName+'" data-id="'+ id +'" class="btnupdate">UPDATE</button></td>\n\
-            </tr>');
-    }; // end of displaying list of section by course and year
-
-    var btnUpdateOnClick = function () {
-        $('#sections').on('click', '.btnupdate', function () {
-            // this === button update
-            var sectionName = $(this).closest('tr').find('td:nth-child(2)').text();
-            console.log(sectionName);
-        });
-    };
-
-    var alertMessage = function (msg) {
-        alert(msg);
     };
 
     return {
         init: initialize
     };
 }();
-
 section.init();

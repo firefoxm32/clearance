@@ -23,10 +23,10 @@ public class SubjectDaoImpl extends CustomHibernateDaoSupport implements Subject
 		getHibernateTemplate().save(subject);
 	}
 
-	public Subject findByCourseYearOrSubjectId(String field, int id) {
+	public List<Subject> findByCourseYearOrSubjectId(String field, int id) {
 		// TODO Auto-generated method stub
-		List list = getHibernateTemplate().find("FROM Subject WHERE " + field + " =?", id);
-		return (Subject) list.get(0);
+		List<Subject> list = (List<Subject>) getHibernateTemplate().find("FROM Subject WHERE " + field + " =?", id);
+		return list;
 	}
 
 }

@@ -6,6 +6,7 @@
 package com.local.bo;
 
 import com.local.model.Subject;
+import java.util.List;
 
 /**
  *
@@ -15,5 +16,5 @@ public interface SubjectService {
 
 	void save(Subject subject);
 
-	Subject findByCourseYearOrSubjectId(String field, int id);
+	List<Subject> findByCourseYearOrSubjectId(String field, int id);
 }

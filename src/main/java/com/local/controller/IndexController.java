@@ -18,8 +18,6 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String Home() {
-        return "redirect:/sections";
-//        return "index";
-//        return "redirect:/subjects";
+        return "index";
     }
 }
