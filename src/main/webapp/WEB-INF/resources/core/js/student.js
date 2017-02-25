@@ -15,4 +15,4 @@ student = function (){
     };
     
 }();
-student.init();
+student.init;
