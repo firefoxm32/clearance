@@ -28,7 +28,7 @@ import javax.persistence.Table;
 @Table(name = "students")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class Student implements Serializable {
-	private Integer studentId;
+	private String studentId;
 	private String name;
 	private String gender;
 	private Date birthday;
@@ -61,13 +61,12 @@ public class Student implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "student_id")
-	public Integer getStudentId() {
+	public String getStudentId() {
 		return studentId;
 	}
 
-	public void setStudentId(Integer studentId) {
+	public void setStudentId(String studentId) {
 		this.studentId = studentId;
 	}
 

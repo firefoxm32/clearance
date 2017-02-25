@@ -6,6 +6,8 @@
 package com.local.dao;
 
 import com.local.model.Student;
+import com.local.model.StudentDetail;
+import java.util.List;
 
 /**
  *
@@ -14,5 +16,7 @@ import com.local.model.Student;
 public interface StudentDao {
 
 	void save(Student student);
+        
+        List<StudentDetail> filter(Object[] ids);
 }
 

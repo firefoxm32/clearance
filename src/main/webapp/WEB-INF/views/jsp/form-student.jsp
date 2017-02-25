@@ -13,12 +13,19 @@
 <jsp:include page="partials/header.jsp" />
 
 <div class="form-student-container section-container">
-    <form:form modelAttribute="student" method="POST">
+    <spring:url value="/student/save" var="action" />
+    <form:form modelAttribute="studentAttribute" method="POST" action="${action}">
         <table>
+            <tr>
+                <td>STUDENT ID: </td>
+                <td>
+                    <form:input path="studentId" placeholder="STUDENT ID" class="js-input-student-id" />
+                </td>
+            </tr>
             <tr>
                 <td>NAME: </td>
                 <td>
-                    <form:input path="name" placeholder="NAME" class="js-input-name" />
+                    <form:input path="name" placeholder="NAME" class="js-input-student-name" />
                 </td>
             </tr>
             <tr>
@@ -31,7 +38,7 @@
             <tr>
                 <td>BIRTHDAY: </td>
                 <td>
-                    <form:input path="birthday" placeholder="BIRTHDAY" class="js-date-picker" />
+                    <input type="text" name="birthdate" placeholder="BIRTHDAY" class="js-date-picker" />
                 </td>
             </tr>
             <tr>
@@ -56,20 +63,20 @@
                 <td>SEMESTER: </td>
                 <td>
                     <%--<form:input path="${studentDetails.semester}" placeholder="SEMESTER" />--%>
-                    <form:select path="${studentDetails.semester}" class="js-select-sem">
-                        <form:option value="0">SELECT SEMESTER</form:option>
-                        <form:option value="1">SELECT 1st Sem</form:option>
-                        <form:option value="2">SELECT 2nd Sem</form:option>
-                        <form:option value="3">SELECT 3rd Sem</form:option>
-                    </form:select>
+                    <select name="select-sem" class="js-select-sem">
+                        <option value="0">SELECT SEMESTER</option>
+                        <option value="1st Sem">1st Sem</option>
+                        <option value="2nd Sem">2nd Sem</option>
+                        <option value="3rd Sem">3rd Sem</option>
+                    </select>
                 </td>
             </tr>
             <tr>
                 <td>COURSE: </td>
                 <td>
-                    <select class="js-select-course" style="width: 100%">
+                    <select class="js-select-course" style="width: 100%" name="select-course">
                         <option value="0">SELECT COURSE</option>
-                        <c:forEach items="${courses}" var="course" varStatus="counter">
+                        <c:forEach items="${coursesAttribute}" var="course" varStatus="counter">
                             <option value="${course.courseId}">
                                 ${course.courseName}
                             </option>
@@ -80,7 +87,7 @@
             <tr>
                 <td>YEAR: </td>
                 <td>
-                    <select class="js-select-year" style="width: 100%">
+                    <select class="js-select-year" style="width: 100%" name="select-year">
                         <option value="0">SELECT YEAR</option>
                     </select>
                 </td>
@@ -88,7 +95,7 @@
             <tr>
                 <td>SECTION: </td>
                 <td>
-                    <select class="js-select-section" style="width: 100%">
+                    <select class="js-select-section" style="width: 100%" name="select-section">
                         <option value="0">SELECT SECTION</option>
                     </select>
                 </td>

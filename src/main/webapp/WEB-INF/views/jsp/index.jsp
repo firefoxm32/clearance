@@ -7,5 +7,5 @@
 <a href="${url}courses">COURSES</a>
 <a href="${url}sections">SECTIONS</a>
 <a href="${url}subjects">SUBJECTS</a>
-<a href="${url}students">STUDENTS</a>
+<a href="${url}student/index">STUDENTS</a>
 <jsp:include page="partials/footer.jsp" />

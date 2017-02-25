@@ -6,6 +6,8 @@
 package com.local.bo;
 
 import com.local.model.Student;
+import com.local.model.StudentDetail;
+import java.util.List;
 
 /**
  *
@@ -14,4 +16,6 @@ import com.local.model.Student;
 public interface StudentService {
 
 	void save(Student student);
+        
+        List<StudentDetail> filter(Object[] ids);
 }
