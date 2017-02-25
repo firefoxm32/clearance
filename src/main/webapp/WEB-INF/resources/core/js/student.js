@@ -20,6 +20,7 @@ student = function (){
     var bindEventListener = function () {
         $formStudent.find($selectYear).change(function () {
             populateSelectSection($selectYear.val());
+            var ids = [1];
         });
     };
     

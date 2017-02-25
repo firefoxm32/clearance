@@ -33,7 +33,7 @@ public class StudentDetail implements Serializable {
 	private Student student;
 
 	@ManyToOne
-	@JoinColumn(name = "students_id", insertable = true, updatable = true, nullable = false)
+	@JoinColumn(name = "student_id", insertable = true, updatable = true, nullable = false)
 	public Student getStudent() {
 		return student;
 	}
