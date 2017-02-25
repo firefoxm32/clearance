@@ -11,7 +11,7 @@ student = function (){
     };
     
     var test = function () {
-        console.log('test');
+        console.log('test another to test another');
     };
     
     return {
