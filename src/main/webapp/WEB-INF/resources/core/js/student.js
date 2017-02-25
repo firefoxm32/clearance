@@ -43,9 +43,9 @@ student = function (){
         $selectSection.append(html);
     };
     
-    return {
-        init: initialize()
-    };
+//    return {
+//        init: initialize()
+//    };
     
 }();
 student.init;
