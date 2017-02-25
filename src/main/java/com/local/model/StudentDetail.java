@@ -80,7 +80,7 @@ public class StudentDetail implements Serializable {
 		this.courseYearId = courseYearId;
 	}
 
-	@Column(name = "semester_period")
+	@Column(name = "semester")
 	public String getSemester() {
 		return semester;
 	}

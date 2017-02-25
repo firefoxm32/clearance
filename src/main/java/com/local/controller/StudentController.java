@@ -5,7 +5,10 @@
  */
 package com.local.controller;
 
+import com.local.bo.CourseService;
+import com.local.model.Course;
 import com.local.model.Student;
+import com.local.util.ContextManager;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -29,7 +32,10 @@ public class StudentController {
     
     @RequestMapping(value = "/student/add", method = RequestMethod.GET)
     public String showStudentForm(Model model){
+        CourseService courseService = (CourseService) ContextManager.getApplicationContext().getBean("courseService");
         Student student = new Student();
+        List<Course> courses = courseService.viewAllCourses();
+        model.addAttribute("courses", courses);
         model.addAttribute("student", student);
         return "form-student";
     }
