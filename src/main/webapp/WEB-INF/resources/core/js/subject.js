@@ -30,7 +30,10 @@ subject = function () {
         });
         
         $subject.find($btnSave).click(function () {
-            console.log("subject!");
+            if ($selectYear.val() == 0 || $inputName.text() === ""){
+                console.log('Incomplete!'); 
+                return;
+            }
             save();
         });
         

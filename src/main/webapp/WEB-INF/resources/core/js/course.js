@@ -10,4 +10,4 @@ course = function (){
         
     return {init : initialize()};
 }();
-course.init;
+course.init();

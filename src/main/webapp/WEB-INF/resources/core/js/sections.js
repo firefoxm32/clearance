@@ -100,7 +100,7 @@ section = function () {
     };
 
     return {
-        init: initialize
+        init: initialize()
     };
 }();
 section.init();
