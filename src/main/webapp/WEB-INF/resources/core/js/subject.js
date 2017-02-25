@@ -105,4 +105,4 @@ subject = function () {
     return {init: initialize};
 
 }();
-subject.init();
+subject.init;

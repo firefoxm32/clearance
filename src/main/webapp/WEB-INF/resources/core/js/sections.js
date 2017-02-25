@@ -103,4 +103,4 @@ section = function () {
         init: initialize()
     };
 }();
-section.init();
+section.init;

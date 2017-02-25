@@ -28,5 +28,5 @@ student = function() {
    return {init: initialize, studentName: getName}
 }();
 
-student.init();
+student.init;
 //student.show();
