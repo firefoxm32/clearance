@@ -10,14 +10,6 @@ student = function (){
         $datePicker.datepicker();
     };
     
-    var testFunction = function (){
-        console.log('test');
-    };
-    
-    var test = function () {
-        console.log('test another to test another');
-    };
-    
     return {
         init: initialize()
     };
