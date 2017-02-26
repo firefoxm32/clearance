@@ -31,7 +31,20 @@
         </select>
     </div>
     <div style="width: auto; height: auto; border: black solid; padding: 5px">
-        
+        <table class="js-table">
+            <thead>
+                <td>STUDENT ID</td>
+                <td>NAME</td>
+                <td>GENDER</td>
+                <td>ADDRESS</td>
+                <td>EMAIL</td>
+                <td>SEMESTER</td>
+                <td>ACTION</td>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
     </div>
     <spring:url value="/student/add" var="url" />
     <a href="${url}">ADD STUDENT</a>

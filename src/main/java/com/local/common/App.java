@@ -5,6 +5,11 @@
  */
 package com.local.common;
 
+import com.local.bo.StudentService;
+import com.local.model.StudentDetail;
+import com.local.util.ContextManager;
+import java.util.List;
+
 /**
  *
  * @author Roudhentel
@@ -12,8 +17,22 @@ package com.local.common;
 public class App {
 
     public static void main(String[] args) {
-        new App().sort();
+//        new App().sort();
+        new App().getStudentDetails();
     }
+    
+    private void getStudentDetails() {
+        StudentService service = (StudentService) ContextManager.getApplicationContext().getBean("studentService");
+        String[] ids = new String[]{"%2%","%%","%%"};
+        List<StudentDetail> list = service.filter(ids); 
+        System.out.println("SIZE: "+list.size());
+        for(StudentDetail sd : list){
+            System.out.println("SEM: "+sd.getSemester());
+            System.out.println("NAME: "+sd.getStudent().getName());
+            System.out.println("ID: "+sd.getStudent().getStudentId());
+        }
+    }
+    
     private int[] nums = new int[]{5, 1, -8, 4, 2};
 
     private void sort() {

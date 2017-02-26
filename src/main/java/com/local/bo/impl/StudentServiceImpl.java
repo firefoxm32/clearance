@@ -32,7 +32,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<StudentDetail> filter(Object[] ids) {
+    public List<StudentDetail> filter(String[] ids) {
         return studentDao.filter(ids);
     }
 
