@@ -38,7 +38,7 @@
             <tr>
                 <td>BIRTHDAY: </td>
                 <td>
-                    <input type="text" name="birthdate" placeholder="BIRTHDAY" class="js-date-picker" />
+                    <input type="text" name="birthdate" value="${birthdate}" placeholder="BIRTHDAY" class="js-date-picker" />
                 </td>
             </tr>
             <tr>
@@ -65,9 +65,9 @@
                     <%--<form:input path="${studentDetails.semester}" placeholder="SEMESTER" />--%>
                     <select name="select-sem" class="js-select-sem">
                         <option value="0">SELECT SEMESTER</option>
-                        <option value="1st Sem">1st Sem</option>
-                        <option value="2nd Sem">2nd Sem</option>
-                        <option value="3rd Sem">3rd Sem</option>
+                        <option ${studentDetail.semester == '1st Sem' ? 'selected' : ''} value="1st Sem">1st Sem</option>
+                        <option ${studentDetail.semester == '2nd Sem' ? 'selected' : ''} value="2nd Sem">2nd Sem</option>
+                        <option ${studentDetail.semester == '3rd Sem' ? 'selected' : ''} value="3rd Sem">3rd Sem</option>
                     </select>
                 </td>
             </tr>
@@ -77,7 +77,7 @@
                     <select class="js-select-course" style="width: 100%" name="select-course">
                         <option value="0">SELECT COURSE</option>
                         <c:forEach items="${coursesAttribute}" var="course" varStatus="counter">
-                            <option value="${course.courseId}">
+                            <option ${studentDetail.courseId == course.courseId ? 'selected' : ''} value="${course.courseId}">
                                 ${course.courseName}
                             </option>
                         </c:forEach>

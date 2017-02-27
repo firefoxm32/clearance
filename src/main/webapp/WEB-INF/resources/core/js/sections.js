@@ -27,7 +27,7 @@ section = function () {
         });
         
         $section.find($selectYear).change(function () {
-            populateTable();
+            populateSectionTable();
         });
         
         $section.find($btnSave).click(function () {
@@ -60,7 +60,7 @@ section = function () {
         $selectYear.append(rendered);
     };
 
-    var populateTable = function () {
+    var populateSectionTable = function () {
         var yId = $selectYear.val();
         $.ajax({
             type: 'GET',

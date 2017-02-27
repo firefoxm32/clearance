@@ -17,5 +17,7 @@ public interface StudentService {
 
 	void save(Student student);
         
+        Student findByStudentId(String id);
+        
         List<StudentDetail> filter(String[] ids);
 }

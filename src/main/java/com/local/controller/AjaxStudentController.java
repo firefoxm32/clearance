@@ -31,9 +31,6 @@ public class AjaxStudentController {
             "%"+request.getParameter("year_id")+"%",
             "%"+request.getParameter("section_id")+"%"
         };
-//        System.out.println("CID: "+request.getParameter("course_id"));
-//        System.out.println("YID: "+request.getParameter("year_id"));
-//        System.out.println("SID: "+request.getParameter("section_id"));
         List<StudentDetail> list = getStudentService().filter(ids);
         map.put("items", list);
         map.put("total", list.size());

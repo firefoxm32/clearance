@@ -6,6 +6,7 @@
 package com.local.common;
 
 import com.local.bo.StudentService;
+import com.local.model.Student;
 import com.local.model.StudentDetail;
 import com.local.util.ContextManager;
 import java.util.List;
@@ -18,7 +19,18 @@ public class App {
 
     public static void main(String[] args) {
 //        new App().sort();
-        new App().getStudentDetails();
+//        new App().getStudentDetails();
+        new App().getStudent();
+    }
+    
+    private void getStudent(){
+        StudentService service = (StudentService) ContextManager.getApplicationContext().getBean("studentService");
+        Student student = service.findByStudentId("2013000969");
+        
+        System.out.println("STUD ID: "+student.getStudentId());
+        System.out.println("NAME: "+student.getName());
+        System.out.println("EMAIL: "+student.getEmail());
+        System.out.println("SEM: "+student.getStudentDetails().get(0).getSemester());
     }
     
     private void getStudentDetails() {
