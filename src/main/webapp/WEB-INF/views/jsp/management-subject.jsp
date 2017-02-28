@@ -10,7 +10,7 @@
     <div style="margin: auto;width: auto; height: auto; border: black solid; padding: 5px">
         <h2>LIST OF SUBJECTS BY COURSE AND YEAR</h2>
         <select class="js-select-course">
-            <option value="0">SELECT COURSE</option>
+            <option value="">SELECT COURSE</option>
             <c:forEach items="${courses}" var="course" varStatus="counter">
                 <option value="${course.courseId}">
                     ${course.courseName}
@@ -18,7 +18,7 @@
             </c:forEach>
         </select>
         <select class="js-select-year">
-            <option value="0">SELECT YEAR</option>
+            <option value="">SELECT YEAR</option>
         </select>
         <input class="js-input-name" type="text" placeholder="Subject" />
         <button class="js-button-save" type="submit">Save</button>

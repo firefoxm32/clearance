@@ -9,6 +9,7 @@ import com.local.bo.StudentService;
 import com.local.model.Student;
 import com.local.model.StudentDetail;
 import com.local.util.ContextManager;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -20,7 +21,29 @@ public class App {
     public static void main(String[] args) {
 //        new App().sort();
 //        new App().getStudentDetails();
-        new App().getStudent();
+//        new App().getStudent();
+//        new App().test();
+        new App().test2();
+    }
+    
+    private void test() {
+        String str1 = "1111111111111111111"; //19 digits
+        String str2 = "11111111111111111111"; //20 digits
+        BigInteger bi = new BigInteger(str2);
+        System.out.println(Long.valueOf(str1));
+        System.out.println(bi);
+    }
+    
+    private void test2() {
+        String str = "2234";
+        for (int i =0; i < str.toCharArray().length; i++){
+//            System.out.print(str.charAt(i));
+            System.out.print(Integer.valueOf(String.valueOf(str.charAt(i))) + 1);
+        }
+        System.out.println();
+        for (String x : str.split("")) {
+            System.out.print(Integer.valueOf(x) + 1);
+        }
     }
     
     private void getStudent(){

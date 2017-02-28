@@ -12,6 +12,10 @@ student = function () {
     var initialize = function () {
         loadDatePicker();
         bindEventListener();
+        populateStudentTable();
+        if(location.hash === '#yearandsection') {
+            populateYearSection();
+        }
     };
 
     var loadDatePicker = function () {
@@ -22,9 +26,23 @@ student = function () {
     };
 
     var bindEventListener = function () {
-        $formStudent.find($selectYear).change(function () {
-            populateSelectSection($selectYear.val());
+        $formStudent.find($selectCourse).change(function () {
+            $selectYear.empty();
+            $selectYear.append('<option value="">SELECT YEAR</option>');
+            $selectSection.empty();
+            $selectSection.append('<option value="">SELECT SECTION</option>');
+            if ($selectCourse.val() !== "") {
+                $.populateSelectYear($selectCourse.val(), $formStudent, "");
+            }
         });
+        $formStudent.find($selectYear).change(function () {
+            $selectSection.empty();
+            $selectSection.append('<option value="">SELECT SECTION</option>');
+            if ($selectYear.val() !== "") {
+                $.populateSelectSection($selectYear.val(), $formStudent, "");
+            }
+        });
+
         $studentContainer.find($selectCourse).change(function () {
             populateStudentTable();
             $selectYear.empty();
@@ -32,7 +50,7 @@ student = function () {
             $selectSection.empty();
             $selectSection.append('<option value="">SELECT SECTION</option>');
             if ($selectCourse.val() !== "") {
-                populateSelectYear($selectCourse.val());
+                $.populateSelectYear($selectCourse.val(), $studentContainer, "");
             }
         });
         $studentContainer.find($selectYear).change(function () {
@@ -40,7 +58,7 @@ student = function () {
             $selectSection.empty();
             $selectSection.append('<option value="">SELECT SECTION</option>');
             if ($selectYear.val() !== "") {
-                populateSelectSection($selectYear.val());
+                $.populateSelectSection($selectYear.val(), $studentContainer, "");
             }
         });
         $studentContainer.find($selectSection).change(function () {
@@ -49,48 +67,9 @@ student = function () {
         $studentContainer.find($table).on('click', '.js-btn-update', function () {
             showStudentFormUpdate($(this).data('id'));
         });
-//        $studentContainer.ready(populateStudentTable());
     };
-
-    var populateSelectYear = function (id) {
-        $.ajax({
-            type: 'GET',
-            url: "/clearance/api/course/" + id,
-            success: function (result) {
-                $selectYear.empty();
-                renderSelectYear(result);
-            }
-        });
-    };
-
-    var renderSelectYear = function (data) {
-        var template = $('#student_course_template').html();
-        var rendered = Mustache.render(template, data);
-        $selectYear.append(rendered);
-    };
-
-    var populateSelectSection = function (id) {
-        $.ajax({
-            type: 'GET',
-            url: "/clearance/api/sections/" + id,
-            success: function (data) {
-                renderSelectSection(data);
-            },
-            error: function (errorThrown) {
-                console.log(errorThrown);
-            }
-        });
-    };
-
-    var renderSelectSection = function (data) {
-        $selectSection.empty();
-        var template = $('#student_section_template').html();
-        var html = Mustache.render(template, data);
-        $studentContainer.find($selectSection).append(html);
-    };
-
+    
     var populateStudentTable = function () {
-        $tbody.empty();
         $courseId = $selectCourse.val();
         $yearId = $selectYear.val();
         $sectionId = $selectSection.val();
@@ -112,24 +91,28 @@ student = function () {
         });
     };
 
-    var renderStudentTable = function (data) {
+    renderStudentTable = function (data) {
+        $studentContainer.find('tbody').empty();
         var template = $('#student_table_template').html();
         var html = Mustache.render(template, data);
         $studentContainer.find('tbody').append(html);
     };
-
+    
     var showStudentFormUpdate = function (id) {
-//        $.ajax({
-//            type: 'GET',
-//            url: "/clearance/student/update/" + id,
-//            success: function (data) {
-//      
-//            },
-//            error: function (errorThrown) {
-//                console.log(errorThrown);
-//            }
-//        });
-        window.location.href="/clearance/student/update/"+id;
+        window.location.href = "/clearance/student/update/" + id+"#yearandsection";
+    };
+
+    var populateYearSection = function () {
+        $courseVal = $formStudent.find($selectCourse).val();
+        $yearVal = "";
+        if($formStudent.find($selectCourse).val() !== "") {
+            $yearVal = $formStudent.find($selectYear).data('val');
+            $.populateSelectYear($courseVal , $formStudent, $yearVal);
+        }
+        if ($formStudent.find($selectYear).data('val') !== "") {
+            $sectionVal = $formStudent.find($selectSection).data('val');
+            $.populateSelectSection($yearVal, $formStudent, $sectionVal);
+        }
     };
 
     return {

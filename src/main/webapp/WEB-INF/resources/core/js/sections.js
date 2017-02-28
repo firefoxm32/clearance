@@ -15,23 +15,27 @@ section = function () {
 
     var bindEventListener = function () {
         $section.find($selectCourse).change(function () {
-            $id = $selectCourse.val();
             $table.find('tbody').empty();
-            if ($id == 0) {
-                $selectYear.empty();
-                $inputName.val("");
-                $selectYear.append('<option value="0">SELECT YEAR</option>');
-                return;
+            $selectYear.empty();
+            $selectYear.append('<option value="">SELECT YEAR</option>');
+            if ($selectCourse.val() !== "") {
+                $.populateSelectYear($selectCourse.val(), $section, "");
             }
-            populateSelectYear($id);
         });
         
         $section.find($selectYear).change(function () {
-            populateSectionTable();
+            $table.find('tbody').empty();
+            if($selectYear.val() !== ""){
+               populateSectionTable(); 
+            }
         });
         
         $section.find($btnSave).click(function () {
-            console.log("section!");
+            if($selectYear.val() === "" || $inputName.text() === ""){
+                console.log('incomplete');
+                return;
+            }
+            console.log('complete');
             save();
         });
         
@@ -40,26 +44,7 @@ section = function () {
             $sId = $(this).data("id");
         });
     };
-
-    var populateSelectYear = function (id) {
-        $.ajax({
-            type: 'GET',
-            url: "/clearance/api/course/" + id,
-            success: function (result) {
-                $selectYear.empty();
-                $inputName.val("");
-                renderSelectYear(result);
-            }
-        });
-    };
-
-    var renderSelectYear = function (data) {
-        $inputName.val();
-        var template = $('#section_template').html();
-        var rendered = Mustache.render(template, data);
-        $selectYear.append(rendered);
-    };
-
+    
     var populateSectionTable = function () {
         var yId = $selectYear.val();
         $.ajax({

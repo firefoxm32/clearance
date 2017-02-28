@@ -12,7 +12,7 @@
 
 <jsp:include page="partials/header.jsp" />
 
-<div class="form-student-container section-container">
+<div class="form-student-container">
     <spring:url value="/student/save" var="action" />
     <form:form modelAttribute="studentAttribute" method="POST" action="${action}">
         <table>
@@ -75,7 +75,7 @@
                 <td>COURSE: </td>
                 <td>
                     <select class="js-select-course" style="width: 100%" name="select-course">
-                        <option value="0">SELECT COURSE</option>
+                        <option value="">SELECT COURSE</option>
                         <c:forEach items="${coursesAttribute}" var="course" varStatus="counter">
                             <option ${studentDetail.courseId == course.courseId ? 'selected' : ''} value="${course.courseId}">
                                 ${course.courseName}
@@ -87,16 +87,16 @@
             <tr>
                 <td>YEAR: </td>
                 <td>
-                    <select class="js-select-year" style="width: 100%" name="select-year">
-                        <option value="0">SELECT YEAR</option>
+                    <select class="js-select-year" data-val="${studentDetail.courseYearId}" style="width: 100%" name="select-year">
+                        <option value="">SELECT YEAR</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>SECTION: </td>
                 <td>
-                    <select class="js-select-section" style="width: 100%" name="select-section">
-                        <option value="0">SELECT SECTION</option>
+                    <select class="js-select-section" data-val="${studentDetail.sectionId}" style="width: 100%" name="select-section">
+                        <option value="">SELECT SECTION</option>
                     </select>
                 </td>
             </tr>

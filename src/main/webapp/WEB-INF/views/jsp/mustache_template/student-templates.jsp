@@ -7,7 +7,7 @@
 <script type="text/template" id="student_course_template">
     <option value="">SELECT YEAR</option>
     {{#courseYears}}
-        <option value="{{id}}">{{yearName}}</option>
+        <option id="{{id}}" value="{{id}}">{{yearName}}</option>
     {{/courseYears}}
 </script>
 

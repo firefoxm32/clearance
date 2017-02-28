@@ -13,27 +13,31 @@ subject = function () {
     };
 
     var bindEventListener = function () {
+       
         $subject.find($selectCourse).change(function () {
-            $id = $selectCourse.val();
+            console.log('a'+$selectCourse.val()+'b');
             $table.find('tbody').empty();
-            if ($id == 0) {
-                $selectYear.empty();
-                $inputName.val("");
-                $selectYear.append('<option value="0">SELECT YEAR</option>');
-                return;
+            $selectYear.empty();
+            $selectYear.append('<option value="">SELECT YEAR</option>');
+            if ($selectCourse.val() !== "") {
+                console.log('hello');
+                $.populateSelectYear($selectCourse.val(), $subject, "");
             }
-            populateSelectYear($id);
         });
         
         $subject.find($selectYear).change(function () {
-            populateTable();
+            console.log('a'+$selectCourse.val()+'b');
+            if($selectYear.val() !== ""){
+                populateTable();
+            }
         });
         
         $subject.find($btnSave).click(function () {
-            if ($selectYear.val() == 0 || $inputName.text() === ""){
+            if ($selectYear.val() === "" || $inputName.text() === ""){
                 console.log('Incomplete!'); 
                 return;
             }
+            console.log('complete!'); 
             save();
         });
         
@@ -41,25 +45,6 @@ subject = function () {
             $inputName.val($(this).data("name"));
             $sId = $(this).data("id");
         });
-    };
-    
-    var populateSelectYear = function (id) {
-        $.ajax({
-            type: 'GET',
-            url: "/clearance/api/course/" + id,
-            success: function (result) {
-                $selectYear.empty();
-                $inputName.val("");
-                renderSelectYear(result);
-            }
-        });
-    };
-
-    var renderSelectYear = function (data) {
-        $inputName.val();
-        var template = $('#subject_template').html();
-        var rendered = Mustache.render(template, data);
-        $selectYear.append(rendered);
     };
     
     var populateTable = function () {
@@ -102,7 +87,9 @@ subject = function () {
         });
     };
     
-    return {init: initialize};
+    return {
+        init: initialize()
+    };
 
 }();
 subject.init;
