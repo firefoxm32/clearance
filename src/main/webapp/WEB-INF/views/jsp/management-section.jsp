@@ -4,7 +4,7 @@
     <div style="width: auto; height: auto; border: black solid; padding: 5px">
         <h2>LIST OF SECTIONS PER COURSE AND YEAR</h2>
         <select class="js-select-course" >
-            <option value="0">SELECT COURSE</option>
+            <option value="">SELECT COURSE</option>
             <c:forEach items="${courses}" var="course" varStatus="counter">
                 <option value="${course.courseId}">
                     ${course.courseName}
@@ -13,7 +13,7 @@
         </select>
 
         <select class="js-select-year">
-            <option value="0">
+            <option value="">
                 SELECT YEAR
             </option>
         </select>

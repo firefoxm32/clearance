@@ -17,6 +17,8 @@ public interface StudentDao {
 
 	void save(Student student);
         
-        List<StudentDetail> filter(Object[] ids);
+        Student findByStudentId(String id);
+        
+        List<StudentDetail> filter(String[] ids);
 }
 

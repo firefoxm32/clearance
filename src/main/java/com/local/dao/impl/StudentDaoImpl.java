@@ -20,13 +20,17 @@ import org.springframework.stereotype.Repository;
 public class StudentDaoImpl extends CustomHibernateDaoSupport implements StudentDao {
 
     public void save(Student student) {
-        // TODO Auto-generated method stub
         getHibernateTemplate().save(student);
     }
 
-    public List<StudentDetail> filter(Object[] ids) {
+    public Student findByStudentId(String id) {
+        List list = getHibernateTemplate().findByNamedParam("FROM Student WHERE student_id = :sid", "sid", id);
+        return (Student) list.get(0) ;
+    }
+
+    public List<StudentDetail> filter(String[] ids) {
         String[] paramNames = {"cd","cyd","sd"};
-        String queryString = "FROM StudentDetail WHERE course_id LIKE %:cd% AND course_year_id LIKE %cyd% AND section_id LIKE %sd%";
+        String queryString = "FROM StudentDetail WHERE course_id LIKE :cd AND course_year_id LIKE :cyd AND section_id LIKE :sd";
         List<StudentDetail> list = (List<StudentDetail>) 
                 getHibernateTemplate().findByNamedParam(queryString, paramNames, ids);
         return list;

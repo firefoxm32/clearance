@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -44,6 +45,16 @@ public class StudentController {
         return "form-student";
     }
     
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String showStudentForm(Model model, @PathVariable("id") String id){
+        Student student = getStudentService().findByStudentId(id);
+        model.addAttribute("coursesAttribute", courses());
+        model.addAttribute("studentAttribute", student);
+        model.addAttribute("birthdate", student.getBirthday());
+        model.addAttribute("studentDetail", student.getStudentDetails().get(0));
+        return "form-student";
+    }
+    
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveStudent(@ModelAttribute("studentAttribute") Student student, HttpServletRequest request) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -64,9 +75,13 @@ public class StudentController {
         studentDetails.add(sd);
         student.setStudentDetails(studentDetails);
         
-        StudentService studentService = (StudentService) ContextManager.getApplicationContext().getBean("studentService");
-        studentService.save(student);
+        getStudentService().save(student);
         return "redirect:/student/index";
+    }
+    
+    private StudentService getStudentService(){
+        StudentService studentService = (StudentService) ContextManager.getApplicationContext().getBean("studentService");
+        return studentService;
     }
     
     private List<Course> courses() {
