@@ -30,14 +30,6 @@ public class CourseController {
     public String showManagementCourse(Model model) {
         CourseService courseService = (CourseService) ContextManager.getApplicationContext().getBean("courseService");
         List<Course> courses = courseService.viewAllCourses();
-        /*
-		 * for (int i = 0; i < courses.size(); i++) {
-		 * System.out.println("COURSE ID: " + courses.get(i).getCourseId());
-		 * System.out.println("COURSE NAME: " + courses.get(i).getCourseName());
-		 * System.out.println("YEARS: " +
-		 * courses.get(i).getCourseYears().size()); }
-         */
-
         model.addAttribute("courses", courses);
         return "management-course";
     }
@@ -59,7 +51,7 @@ public class CourseController {
         return "form-course";
     }
 
-    @RequestMapping(value = "/course/{course_id}/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/course/update/{course_id}", method = RequestMethod.GET)
     public String showCourseFormUpdate(Model model, @PathVariable("course_id") int id) {
         CourseService courseService = (CourseService) ContextManager.getApplicationContext().getBean("courseService");
         Course course = courseService.findByCourseId(id);

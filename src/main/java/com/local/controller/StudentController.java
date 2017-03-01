@@ -42,6 +42,7 @@ public class StudentController {
         Student student = new Student();
         model.addAttribute("coursesAttribute", courses());
         model.addAttribute("studentAttribute", student);
+        model.addAttribute("action", "add");
         return "form-student";
     }
     
@@ -52,6 +53,7 @@ public class StudentController {
         model.addAttribute("studentAttribute", student);
         model.addAttribute("birthdate", student.getBirthday());
         model.addAttribute("studentDetail", student.getStudentDetails().get(0));
+        model.addAttribute("action", "update");
         return "form-student";
     }
     
@@ -64,6 +66,7 @@ public class StudentController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         student.setBirthday(bdate);
         List<StudentDetail> studentDetails = new ArrayList<>();
         StudentDetail sd = new StudentDetail();
@@ -75,7 +78,13 @@ public class StudentController {
         studentDetails.add(sd);
         student.setStudentDetails(studentDetails);
         
-        getStudentService().save(student);
+        if("add".equals(request.getParameter("save"))) {
+            addStudent(student);
+            System.out.println("add");
+            return "redirect:/student/index";
+        }
+        System.out.println("update");
+        updateStudent(student);
         return "redirect:/student/index";
     }
     
@@ -88,5 +97,13 @@ public class StudentController {
         CourseService courseService = (CourseService) ContextManager.getApplicationContext().getBean("courseService");
         List<Course> courses = courseService.viewAllCourses();
         return courses;
+    }
+    
+    private void addStudent(Student student){
+        getStudentService().save(student);
+    }
+    
+    private void updateStudent(Student student){
+        getStudentService().update(student);
     }
 }

@@ -13,8 +13,8 @@
 <jsp:include page="partials/header.jsp" />
 
 <div class="form-student-container">
-    <spring:url value="/student/save" var="action" />
-    <form:form modelAttribute="studentAttribute" method="POST" action="${action}">
+    <spring:url value="/student/save" var="url" />
+    <form:form modelAttribute="studentAttribute" method="POST" action="${url}">
         <table>
             <tr>
                 <td>STUDENT ID: </td>
@@ -103,7 +103,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <button style="width: 100%">SUBMIT</button>
+                    <button style="width: 100%" name="save" value="${action}">SUBMIT</button>
                 </td>
             </tr>
         </table>

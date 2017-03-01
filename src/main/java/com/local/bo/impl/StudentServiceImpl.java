@@ -31,6 +31,11 @@ public class StudentServiceImpl implements StudentService {
         studentDao.save(student);
     }
 
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void update(Student student) {
+        studentDao.update(student);
+    }
+
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Student findByStudentId(String id) {
         return studentDao.findByStudentId(id);

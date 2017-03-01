@@ -23,6 +23,10 @@ public class StudentDaoImpl extends CustomHibernateDaoSupport implements Student
         getHibernateTemplate().save(student);
     }
 
+    public void update(Student student) {
+        getHibernateTemplate().update(student);
+    }
+    
     public Student findByStudentId(String id) {
         List list = getHibernateTemplate().findByNamedParam("FROM Student WHERE student_id = :sid", "sid", id);
         return (Student) list.get(0) ;

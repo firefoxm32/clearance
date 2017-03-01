@@ -31,8 +31,8 @@
 					<td style="border: 1px; border-color: black; border-style: solid;">
 						${fn:length(list.courseYears)}</td>
 					<td style="border: 1px; border-color: black; border-style: solid;">
-						<spring:url value="/course/${list.courseId}" var="courseFormUrl" />
-						<a href="${courseFormUrl}/update">UPDATE</a><a href="${courseFormUrl}" style="padding-left: 10px">VIEW</a>
+						<spring:url value="/course/" var="courseFormUrl" />
+						<a href="${courseFormUrl}update/${list.courseId}">UPDATE</a><a href="${courseFormUrl}${list.courseId}" style="padding-left: 10px">VIEW</a>
 					</td>
 				</tr>
 			</c:forEach>
