@@ -33,11 +33,10 @@ public class StudentDaoImpl extends CustomHibernateDaoSupport implements Student
     }
 
     public List<StudentDetail> filter(String[] ids) {
-        String[] paramNames = {"cd","cyd","sd"};
-        String queryString = "FROM StudentDetail WHERE course_id LIKE :cd AND course_year_id LIKE :cyd AND section_id LIKE :sd";
+        String[] paramNames = {"cd","cyd","sd","sem"};
+        String queryString = "FROM StudentDetail WHERE course_id LIKE :cd AND course_year_id LIKE :cyd AND section_id LIKE :sd AND semester LIKE :sem";
         List<StudentDetail> list = (List<StudentDetail>) 
                 getHibernateTemplate().findByNamedParam(queryString, paramNames, ids);
         return list;
     }
-
 }

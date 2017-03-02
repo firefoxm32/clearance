@@ -61,6 +61,15 @@ public class StudentController {
     public String saveStudent(@ModelAttribute("studentAttribute") Student student, HttpServletRequest request) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date bdate = null;
+        if("".equals(student.getStudentId())){
+            return "form-student";
+        }
+        System.out.println("ACTION: "+request.getParameter("action"));
+        if (getStudentService().findByStudentId(student.getStudentId()) != null && "add".equals(request.getParameter("action"))) {
+            System.out.println("Student ID already exist!!");
+            return "form-student";
+        }
+        
         try {
             bdate = sdf.parse(request.getParameter("birthdate"));
         } catch (Exception e) {
@@ -80,10 +89,8 @@ public class StudentController {
         
         if("add".equals(request.getParameter("save"))) {
             addStudent(student);
-            System.out.println("add");
             return "redirect:/student/index";
         }
-        System.out.println("update");
         updateStudent(student);
         return "redirect:/student/index";
     }

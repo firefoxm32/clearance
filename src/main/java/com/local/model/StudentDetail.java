@@ -16,9 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OrderBy;
 
 /**
  *
@@ -35,9 +34,9 @@ public class StudentDetail implements Serializable {
 	private String semester;
 	private Student student;
 
-//	@ManyToOne(cascade = CascadeType.ALL)
-        @OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "student_id", insertable = true, updatable = true, nullable = false)
+        @OrderBy(clause = "semester DESC")
 	public Student getStudent() {
 		return student;
 	}

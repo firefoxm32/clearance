@@ -11,7 +11,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <jsp:include page="partials/header.jsp" />
-
 <div class="form-student-container">
     <spring:url value="/student/save" var="url" />
     <form:form modelAttribute="studentAttribute" method="POST" action="${url}">
@@ -103,7 +102,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <button style="width: 100%" name="save" value="${action}">SUBMIT</button>
+                    <button style="width: 100%" name="save" value="${action}" class="js-btn-save">SUBMIT</button>
                 </td>
             </tr>
         </table>
