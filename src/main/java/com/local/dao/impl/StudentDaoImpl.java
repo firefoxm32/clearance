@@ -24,7 +24,7 @@ public class StudentDaoImpl extends CustomHibernateDaoSupport implements Student
     }
 
     public void update(Student student) {
-        getHibernateTemplate().update(student);
+        getHibernateTemplate().saveOrUpdate(student);
     }
     
     public Student findByStudentId(String id) {

@@ -30,24 +30,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(value = "/student")
 public class StudentController {
-    
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String showStudentManagement(Model model){
-        model.addAttribute("courses", courses()); 
+    public String showStudentManagement(Model model) {
+        model.addAttribute("courses", courses());
         return "management-student";
     }
-    
+
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String showStudentForm(Model model){
+    public String showStudentForm(Model model) {
         Student student = new Student();
         model.addAttribute("coursesAttribute", courses());
         model.addAttribute("studentAttribute", student);
         model.addAttribute("action", "add");
         return "form-student";
     }
-    
+
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String showStudentForm(Model model, @PathVariable("id") String id){
+    public String showStudentForm(Model model, @PathVariable("id") String id) {
         Student student = getStudentService().findByStudentId(id);
         model.addAttribute("coursesAttribute", courses());
         model.addAttribute("studentAttribute", student);
@@ -56,20 +56,20 @@ public class StudentController {
         model.addAttribute("action", "update");
         return "form-student";
     }
-    
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveStudent(@ModelAttribute("studentAttribute") Student student, HttpServletRequest request) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date bdate = null;
-        if("".equals(student.getStudentId())){
+        if ("".equals(student.getStudentId())) {
             return "form-student";
         }
-        System.out.println("ACTION: "+request.getParameter("action"));
-        if (getStudentService().findByStudentId(student.getStudentId()) != null && "add".equals(request.getParameter("action"))) {
-            System.out.println("Student ID already exist!!");
-            return "form-student";
+        if (getStudentService().filter(new String[]{"", "", "", ""}).size() > 0) {
+            if (getStudentService().findByStudentId(student.getStudentId()) != null && "add".equals(request.getParameter("save"))) {
+                System.out.println("Student ID already exist!!");
+                return "form-student";
+            }
         }
-        
         try {
             bdate = sdf.parse(request.getParameter("birthdate"));
         } catch (Exception e) {
@@ -86,31 +86,54 @@ public class StudentController {
         sd.setStudent(student);
         studentDetails.add(sd);
         student.setStudentDetails(studentDetails);
-        
-        if("add".equals(request.getParameter("save"))) {
+        if ("add".equals(request.getParameter("save"))) {
             addStudent(student);
             return "redirect:/student/index";
         }
-        updateStudent(student);
+//        sd.setStudent(null);
+//        sd.setStudent(student);
+//        studentDetails.add(sd);
+//        student.setStudentDetails(studentDetails);
+        String[] ids = {
+            "%"+request.getParameter("select-course")+"%",
+            "%"+request.getParameter("select-year")+"%",
+            "%"+request.getParameter("select-section")+"%",
+            "%"+request.getParameter("select-sem")+"%"
+        };
+        for(String id : ids) {
+            System.out.println("ID: "+id);
+        }
+        if (isExist(ids)) {
+            updateStudent(student);
+        }
         return "redirect:/student/index";
     }
-    
-    private StudentService getStudentService(){
+
+    private StudentService getStudentService() {
         StudentService studentService = (StudentService) ContextManager.getApplicationContext().getBean("studentService");
         return studentService;
     }
-    
+
     private List<Course> courses() {
         CourseService courseService = (CourseService) ContextManager.getApplicationContext().getBean("courseService");
         List<Course> courses = courseService.viewAllCourses();
         return courses;
     }
     
-    private void addStudent(Student student){
-        getStudentService().save(student);
+    private boolean isExist(String[] ids) {
+        boolean isExist = false;
+        System.out.println("SIZE: "+getStudentService().filter(ids).size());
+        if (getStudentService().filter(ids).isEmpty()) {
+            isExist = true;
+        }
+        return isExist;
     }
     
-    private void updateStudent(Student student){
+    private void addStudent(Student student) {
+        getStudentService().save(student);
+    }
+
+    private void updateStudent(Student student) {
         getStudentService().update(student);
     }
 }

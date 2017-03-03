@@ -8,7 +8,6 @@ package com.local.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,8 +33,10 @@ public class StudentDetail implements Serializable {
 	private String semester;
 	private Student student;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "student_id", insertable = true, updatable = true, nullable = false)
+//	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+        @ManyToOne
+//	@JoinColumn(name = "student_id", insertable = true, updatable = true, nullable = false)
+        @JoinColumn(name = "student_id", nullable = true, insertable = true, updatable = true)
         @OrderBy(clause = "semester DESC")
 	public Student getStudent() {
 		return student;
