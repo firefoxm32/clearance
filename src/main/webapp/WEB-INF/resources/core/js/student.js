@@ -1,4 +1,4 @@
-student = function () {
+var student = function () {
 
     $datePicker = $('.js-date-picker');
     $studentContainer = $('.student-container');
@@ -6,7 +6,7 @@ student = function () {
     $selectCourse = $('.js-select-course');
     $selectYear = $('.js-select-year');
     $selectSection = $('.js-select-section');
-    $selectSemester = $('.js-select-semester');
+    //$selectSemester = $('.js-select-semester');
     $inputStudentId = $('.js-input-student-id');
     $inputName = $('.js-input-student-name');
     $rdbGender = $('.js-rdb-gender');
@@ -83,9 +83,12 @@ student = function () {
         $studentContainer.find($selectSection).change(function () {
             populateStudentTable();
         });
-        $studentContainer.find($selectSemester).change(function () {
-            populateStudentTable();
-        });
+//        $studentContainer.find($selectSemester).change(function () {
+//            var sum = Helper.add(2, 4);
+//            console.log(sum);
+//            Helper.semChange();
+//            populateStudentTable();
+//        });
         $studentContainer.find($table).on('click', '.js-btn-update', function () {
             showStudentFormUpdate($(this).data('id'));
         });
@@ -115,7 +118,7 @@ student = function () {
         });
     };
 
-    renderStudentTable = function (data) {
+    var renderStudentTable = function (data) {
         $studentContainer.find('tbody').empty();
         var template = $('#student_table_template').html();
         var html = Mustache.render(template, data);

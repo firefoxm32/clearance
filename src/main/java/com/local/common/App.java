@@ -10,6 +10,9 @@ import com.local.model.Student;
 import com.local.model.StudentDetail;
 import com.local.util.ContextManager;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +21,36 @@ import java.util.List;
  */
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
 //        new App().sort();
-//        new App().getStudentDetails();
+        new App().getStudentDetails();
 //        new App().getStudent();
 //        new App().test();
-        new App().test2();
+//        new App().test2();
+//        new App().update();
+    }
+    
+    private void update() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        StudentService service = (StudentService) ContextManager.getApplicationContext().getBean("studentService");
+        Student student = new Student();
+        student.setStudentId("2013000969");
+        student.setName("Erick V. Laxamana");
+        student.setGender("M");
+        student.setBirthday(sdf.parse("1996-10-03"));
+        student.setContactNo("09268458369");
+        student.setEmail("erick.laxamana03@gmail.com");
+        student.setAddress("Lagundi Mexico");
+        List<StudentDetail> list = new ArrayList<>();
+        StudentDetail sd = new StudentDetail();
+        sd.setStudentDetailId(1);
+        sd.setSemester("1st Sem");
+        sd.setCourseId(1);
+        sd.setCourseYearId(1);
+        sd.setSectionId(1);
+        list.add(sd);
+        student.setStudentDetails(list);
+        service.update(student);
     }
     
     private void test() {
@@ -58,7 +85,7 @@ public class App {
     
     private void getStudentDetails() {
         StudentService service = (StudentService) ContextManager.getApplicationContext().getBean("studentService");
-        String[] ids = new String[]{"%2%","%%","%%"};
+        String[] ids = new String[]{"%1%","%1%","%1%"};
         List<StudentDetail> list = service.filter(ids); 
         System.out.println("SIZE: "+list.size());
         for(StudentDetail sd : list){

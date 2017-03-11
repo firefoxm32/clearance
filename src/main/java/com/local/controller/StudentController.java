@@ -38,7 +38,7 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String showStudentForm(Model model) {
+    public String showStudentAddForm(Model model) {
         Student student = new Student();
         model.addAttribute("coursesAttribute", courses());
         model.addAttribute("studentAttribute", student);
@@ -47,12 +47,13 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String showStudentForm(Model model, @PathVariable("id") String id) {
+    public String showStudentUpdateForm(Model model, @PathVariable("id") String id) {
         Student student = getStudentService().findByStudentId(id);
+        List<StudentDetail> studentDetail = student.getStudentDetails();
         model.addAttribute("coursesAttribute", courses());
         model.addAttribute("studentAttribute", student);
         model.addAttribute("birthdate", student.getBirthday());
-        model.addAttribute("studentDetail", student.getStudentDetails().get(0));
+        model.addAttribute("studentDetail", studentDetail.get(0));
         model.addAttribute("action", "update");
         return "form-student";
     }
@@ -86,26 +87,12 @@ public class StudentController {
         sd.setStudent(student);
         studentDetails.add(sd);
         student.setStudentDetails(studentDetails);
-        if ("add".equals(request.getParameter("save"))) {
-            addStudent(student);
-            return "redirect:/student/index";
-        }
-//        sd.setStudent(null);
-//        sd.setStudent(student);
-//        studentDetails.add(sd);
-//        student.setStudentDetails(studentDetails);
-        String[] ids = {
-            "%"+request.getParameter("select-course")+"%",
-            "%"+request.getParameter("select-year")+"%",
-            "%"+request.getParameter("select-section")+"%",
-            "%"+request.getParameter("select-sem")+"%"
-        };
-        for(String id : ids) {
-            System.out.println("ID: "+id);
-        }
-        if (isExist(ids)) {
-            updateStudent(student);
-        }
+        
+//        if ("add".equals(request.getParameter("save"))) {
+//            addStudent(student);
+//            return "redirect:/student/index";
+//        }
+//        updateStudent(student);
         return "redirect:/student/index";
     }
 
@@ -123,7 +110,7 @@ public class StudentController {
     private boolean isExist(String[] ids) {
         boolean isExist = false;
         System.out.println("SIZE: "+getStudentService().filter(ids).size());
-        if (getStudentService().filter(ids).isEmpty()) {
+        if (!getStudentService().filter(ids).isEmpty()) {
             isExist = true;
         }
         return isExist;

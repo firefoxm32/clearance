@@ -29,8 +29,9 @@ public class AjaxStudentController {
         String[] ids = {
             "%"+request.getParameter("course_id")+"%",
             "%"+request.getParameter("year_id")+"%",
-            "%"+request.getParameter("section_id")+"%",
-            "%"+request.getParameter("semester")+"%"
+            "%"+request.getParameter("section_id")+"%"
+//                ,
+//            "%"+request.getParameter("semester")+"%"
         };
         List<StudentDetail> list = getStudentService().filter(ids);
         map.put("items", list);
