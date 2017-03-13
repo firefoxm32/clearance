@@ -27,8 +27,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void save(Student student) {
-        // TODO Auto-generated method stub
         studentDao.save(student);
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void update(Student student) {
+        studentDao.update(student);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)

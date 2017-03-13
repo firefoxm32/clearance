@@ -30,40 +30,53 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(value = "/student")
 public class StudentController {
-    
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String showStudentManagement(Model model){
-        model.addAttribute("courses", courses()); 
+    public String showStudentManagement(Model model) {
+        model.addAttribute("courses", courses());
         return "management-student";
     }
-    
+
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String showStudentForm(Model model){
+    public String showStudentAddForm(Model model) {
         Student student = new Student();
         model.addAttribute("coursesAttribute", courses());
         model.addAttribute("studentAttribute", student);
+        model.addAttribute("action", "add");
         return "form-student";
     }
-    
+
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String showStudentForm(Model model, @PathVariable("id") String id){
+    public String showStudentUpdateForm(Model model, @PathVariable("id") String id) {
         Student student = getStudentService().findByStudentId(id);
+        List<StudentDetail> studentDetail = student.getStudentDetails();
         model.addAttribute("coursesAttribute", courses());
         model.addAttribute("studentAttribute", student);
         model.addAttribute("birthdate", student.getBirthday());
-        model.addAttribute("studentDetail", student.getStudentDetails().get(0));
+        model.addAttribute("studentDetail", studentDetail.get(0));
+        model.addAttribute("action", "update");
         return "form-student";
     }
-    
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveStudent(@ModelAttribute("studentAttribute") Student student, HttpServletRequest request) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date bdate = null;
+        if ("".equals(student.getStudentId())) {
+            return "form-student";
+        }
+        if (getStudentService().filter(new String[]{"", "", ""}).size() > 0) {
+            if (getStudentService().findByStudentId(student.getStudentId()) != null && "add".equals(request.getParameter("save"))) {
+                System.out.println("Student ID already exist!!");
+                return "form-student";
+            }
+        }
         try {
             bdate = sdf.parse(request.getParameter("birthdate"));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         student.setBirthday(bdate);
         List<StudentDetail> studentDetails = new ArrayList<>();
         StudentDetail sd = new StudentDetail();
@@ -75,18 +88,39 @@ public class StudentController {
         studentDetails.add(sd);
         student.setStudentDetails(studentDetails);
         
-        getStudentService().save(student);
+        if ("add".equals(request.getParameter("save"))) {
+            addStudent(student);
+            return "redirect:/student/index";
+        }
+        updateStudent(student);
         return "redirect:/student/index";
     }
-    
-    private StudentService getStudentService(){
+
+    private StudentService getStudentService() {
         StudentService studentService = (StudentService) ContextManager.getApplicationContext().getBean("studentService");
         return studentService;
     }
-    
+
     private List<Course> courses() {
         CourseService courseService = (CourseService) ContextManager.getApplicationContext().getBean("courseService");
         List<Course> courses = courseService.viewAllCourses();
         return courses;
+    }
+    
+//    private boolean isExist(String[] ids) {
+//        boolean isExist = false;
+//        System.out.println("SIZE: "+getStudentService().filter(ids).size());
+//        if (!getStudentService().filter(ids).isEmpty()) {
+//            isExist = true;
+//        }
+//        return isExist;
+//    }
+    
+    private void addStudent(Student student) {
+        getStudentService().save(student);
+    }
+
+    private void updateStudent(Student student) {
+        getStudentService().update(student);
     }
 }

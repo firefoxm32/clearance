@@ -32,8 +32,8 @@ public class StudentDetail implements Serializable {
 	private String semester;
 	private Student student;
 
-	@ManyToOne
-	@JoinColumn(name = "student_id", insertable = true, updatable = true, nullable = false)
+        @ManyToOne
+        @JoinColumn(name = "student_id", nullable = true, insertable = true, updatable = true)
 	public Student getStudent() {
 		return student;
 	}

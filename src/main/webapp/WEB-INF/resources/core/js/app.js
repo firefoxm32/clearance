@@ -1,3 +1,4 @@
+
     $selectCourse = $('.js-select-course');
     $selectYear = $('.js-select-year');
     $selectSection = $('.js-select-section');

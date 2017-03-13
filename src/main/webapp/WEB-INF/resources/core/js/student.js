@@ -1,4 +1,4 @@
-student = function () {
+var student = function () {
 
     $datePicker = $('.js-date-picker');
     $studentContainer = $('.student-container');
@@ -6,6 +6,15 @@ student = function () {
     $selectCourse = $('.js-select-course');
     $selectYear = $('.js-select-year');
     $selectSection = $('.js-select-section');
+    $selectSemester = $('.js-select-sem');
+    $inputStudentId = $('.js-input-student-id');
+    $inputName = $('.js-input-student-name');
+    $rdbGender = $('.js-rdb-gender');
+    $datePicker = $('.js-date-picker');
+    $inputContact = $('.js-input-contact');
+    $inputEmail = $('.js-input-email');
+    $inputAddress = $('.js-input-address');
+    $btnSave = $('.js-btn-save');
     $table = $('.js-table');
     $tbody = $('tbody');
 
@@ -42,6 +51,17 @@ student = function () {
                 $.populateSelectSection($selectYear.val(), $formStudent, "");
             }
         });
+        $formStudent.find($btnSave).click(function () {
+            console.log('student_id: '+$inputStudentId.val());
+            if ($inputStudentId.val() === "" || $inputName.val() === "" || $rdbGender.val() === "" ||
+                    $datePicker.val() === "" || $inputContact.val() === "" || $inputEmail.val() === "" ||
+                    $inputAddress.val() === "" || $selectSemester.val() === "" || $selectCourse.val() === "" ||
+                    $selectYear.val() === "" || $selectSection.val() === "") {
+                alert('Complete all inputs');
+                return;
+            }
+            
+        });
 
         $studentContainer.find($selectCourse).change(function () {
             populateStudentTable();
@@ -64,6 +84,12 @@ student = function () {
         $studentContainer.find($selectSection).change(function () {
             populateStudentTable();
         });
+//        $studentContainer.find($selectSemester).change(function () {
+//            var sum = Helper.add(2, 4);
+//            console.log(sum);
+//            Helper.semChange();
+//            populateStudentTable();
+//        });
         $studentContainer.find($table).on('click', '.js-btn-update', function () {
             showStudentFormUpdate($(this).data('id'));
         });
@@ -91,7 +117,7 @@ student = function () {
         });
     };
 
-    renderStudentTable = function (data) {
+    var renderStudentTable = function (data) {
         $studentContainer.find('tbody').empty();
         var template = $('#student_table_template').html();
         var html = Mustache.render(template, data);
@@ -114,7 +140,7 @@ student = function () {
             $.populateSelectSection($yearVal, $formStudent, $sectionVal);
         }
     };
-
+    
     return {
         init: initialize()
     };
