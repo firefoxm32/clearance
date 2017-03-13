@@ -29,12 +29,6 @@
                 SELECT SECTION
             </option>
         </select>
-<!--        <select class="js-select-semester">
-            <option value="">SELECT SEMESTER</option>
-            <option value="1st Sem">1st Semester</option>
-            <option value="2nd Sem">2nd Semester</option>
-            <option value="3rd Sem">3rd Semester</option>
-        </select>-->
     </div>
     <div style="width: auto; height: auto; border: black solid; padding: 5px">
         <table class="js-table">

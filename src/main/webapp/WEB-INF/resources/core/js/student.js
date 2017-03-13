@@ -6,7 +6,7 @@ var student = function () {
     $selectCourse = $('.js-select-course');
     $selectYear = $('.js-select-year');
     $selectSection = $('.js-select-section');
-    //$selectSemester = $('.js-select-semester');
+    $selectSemester = $('.js-select-sem');
     $inputStudentId = $('.js-input-student-id');
     $inputName = $('.js-input-student-name');
     $rdbGender = $('.js-rdb-gender');
@@ -60,6 +60,7 @@ var student = function () {
                 alert('Complete all inputs');
                 return;
             }
+            
         });
 
         $studentContainer.find($selectCourse).change(function () {
@@ -98,15 +99,13 @@ var student = function () {
         $courseId = $selectCourse.val();
         $yearId = $selectYear.val();
         $sectionId = $selectSection.val();
-        $semester = $selectSemester.val();
         $.ajax({
             type: 'GET',
             url: "/clearance/api/students/",
             data: {
                 course_id: $courseId,
                 year_id: $yearId,
-                section_id: $sectionId,
-                semester: $semester
+                section_id: $sectionId
             },
             cache: false,
             success: function (result) {

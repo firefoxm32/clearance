@@ -65,7 +65,7 @@ public class StudentController {
         if ("".equals(student.getStudentId())) {
             return "form-student";
         }
-        if (getStudentService().filter(new String[]{"", "", "", ""}).size() > 0) {
+        if (getStudentService().filter(new String[]{"", "", ""}).size() > 0) {
             if (getStudentService().findByStudentId(student.getStudentId()) != null && "add".equals(request.getParameter("save"))) {
                 System.out.println("Student ID already exist!!");
                 return "form-student";
@@ -88,11 +88,11 @@ public class StudentController {
         studentDetails.add(sd);
         student.setStudentDetails(studentDetails);
         
-//        if ("add".equals(request.getParameter("save"))) {
-//            addStudent(student);
-//            return "redirect:/student/index";
-//        }
-//        updateStudent(student);
+        if ("add".equals(request.getParameter("save"))) {
+            addStudent(student);
+            return "redirect:/student/index";
+        }
+        updateStudent(student);
         return "redirect:/student/index";
     }
 
@@ -107,14 +107,14 @@ public class StudentController {
         return courses;
     }
     
-    private boolean isExist(String[] ids) {
-        boolean isExist = false;
-        System.out.println("SIZE: "+getStudentService().filter(ids).size());
-        if (!getStudentService().filter(ids).isEmpty()) {
-            isExist = true;
-        }
-        return isExist;
-    }
+//    private boolean isExist(String[] ids) {
+//        boolean isExist = false;
+//        System.out.println("SIZE: "+getStudentService().filter(ids).size());
+//        if (!getStudentService().filter(ids).isEmpty()) {
+//            isExist = true;
+//        }
+//        return isExist;
+//    }
     
     private void addStudent(Student student) {
         getStudentService().save(student);
